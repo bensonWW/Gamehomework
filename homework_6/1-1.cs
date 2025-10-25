@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection.Emit;
-class Q1 : Form1
+class Q1 : Form1    
 {
     void createBumpList()
     {
