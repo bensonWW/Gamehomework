@@ -11,7 +11,7 @@ public class Q1 : Form1
         {
             pokers.Add(new Poker(this.panel1, i));
         }
-        timer1.Interval = 1;
+        timer1.Interval = 10;
         timer1.Tick += timer1_Tick;
     }
     public class Poker : PictureBox
@@ -47,8 +47,8 @@ public class Q1 : Form1
         }
         public void move()
         {
-            this.position_x += (float)(Math.Cos(angle) * 10);
-            this.position_y += (float)(Math.Sin(angle) * 10);
+            this.position_x += (float)(Math.Cos(angle) * 50);
+            this.position_y += (float)(Math.Sin(angle) * 50);
             Point newPoint = new Point((int)position_x, (int)position_y);
             this.Location = newPoint;
             if (this.Location.X + this.Size.Width > this.Parent.Size.Width)
@@ -71,6 +71,7 @@ public class Q1 : Form1
                 angle = (float)Math.PI * 2 - angle;
                 turnCard();
             }
+            this.Refresh();
         }
         private float angle;
         private float position_x;
@@ -92,4 +93,3 @@ public class Q1 : Form1
     }
     protected List<Poker> pokers = new List<Poker>();
 }
-

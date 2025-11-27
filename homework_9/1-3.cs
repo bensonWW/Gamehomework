@@ -27,6 +27,7 @@ class Q3 : Form3
     }
     public void createDot()
     {
+        dots.Clear();
         for (int i = 0; i < 16; i++)
         {
             dots.Add(new List<Dot>());
@@ -35,8 +36,8 @@ class Q3 : Form3
                 Dot dot = new Dot();
                 this.panel1.Controls.Add(dot);
                 dots[i].Add(dot);
-                dot.Size = new Size(50, 50);
-                dot.Location = new Point(i * 75, j * 50);
+                dot.Size = new Size(15, 15);
+                dot.Location = new Point(i * 60, j * 27);
                 dot.changeState(State.Question);
             }
         }
@@ -47,28 +48,48 @@ class Q3 : Form3
         {
             for (int j = 0; j < 20; j++)
             {
-                if (dots[i][j].getState() == State.Question)
+                if (dots[i][j].getState() == State.Bomb)
+                    continue;
+
+                int count = 0;
+
+                for (int z = i - 1; z <= i + 1; z++)
                 {
-                    for (int z = i - 1; z <= i + 1; z++)
+                    for (int a = j - 1; a <= j + 1; a++)
                     {
-                        for (int a = j - 1; a <= j + 1; a++)
+                        if (z >= 0 && z < 16 && a >= 0 && a < 20)
                         {
-                            if (z >= 0 && z < 16 && a >= 0 && a < 20)
+                            if (dots[z][a].getState() == State.Bomb)
                             {
-                                if (dots[z][a].getState() == State.Bomb)
-                                {
-                                    dots[i][j].setNumber(dots[i][j].getNumber() + 1);
-                                    dots[i][j].changeState(State.Number);
-                                }
+                                count++;
                             }
                         }
                     }
+                }
+
+                dots[i][j].setNumber(count);
+
+                if (count > 0)
+                {
+                    dots[i][j].changeState(State.Number);
+                }
+                else
+                {
+                    dots[i][j].changeState(State.Question);
                 }
             }
         }
     }
     public Q3()
     {
+        createDot();
+        createBomb();
+        createNumber();
+    }
+    public override void button1_Click(object sender, EventArgs e)
+    {
+        panel1.Controls.Clear();
+        dots = new List<List<Dot>>();   
         createDot();
         createBomb();
         createNumber();
